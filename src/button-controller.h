@@ -6,6 +6,7 @@ class ButtonController {
     protected:
         static const long longPressDelay = 500; 
         static const long burstPressDelay = 150;
+        static const int longCycleInterval = 5000;
         
         ESPHue hue;
         bool status;
@@ -17,10 +18,13 @@ class ButtonController {
         std::string groupName;
         int pinIn;
         HueGroup hueGroup;
+        int longDimTo;
 
         void toggleGroup();
         void turnOnMaxBrightness();
-        void dimGroup(int dimTo);
+        void stopTransition();
+        void startTransition(bool toOn);
+        int calculateLongPress(long now, long pressedAt);
 
     public:
         ButtonController(ESPHue &hue_api, std::string groupName, int pin_in):
